@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 23.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 495.3 495.3" style="enable-background:new 0 0 495.3 495.3;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#282C34;}
+	.st1{fill:none;}
+	.st2{font-family:'Lato-Black';}
+	.st3{font-size:64px;}
+</style>
+<g>
+	<path class="st0" d="M261.5,433.1v-32.3h-33v32.3c-52,4.3-91.8,27.4-91.8,39c0,12.8,48.5,23.2,108.3,23.2s108.3-10.4,108.3-23.2
+		C353.4,460.4,313.5,437.3,261.5,433.1z"/>
+	<path class="st0" d="M92.2,114.7c1.5,75.1,57.8,140.1,136.3,148.9V290h33v-26.4c79.7-9.1,136.5-75.9,136.5-152.1
+		c0-28.8-8-64.6-21.9-99.3c-2.9-7.4-10-12.2-18-12.2H131.9c-8,0-15.1,4.8-18,12.2C101.4,43.6,91.7,80.5,92.2,114.7L92.2,114.7z
+		 M141.3,33h207.5c10.4,28.3,16.2,56.5,16.2,78.5c0,5.4-0.5,10.6-1.2,15.8c-10.3-2.6-21-2.9-32.5,1.2c-30,10.7-49.4,17.5-79.9,5.5
+		c-30.3-11.9-49.5-66-85.9-61.8c-14.4,1.6-26.8,6.4-38,13C130.1,68.8,134.7,51,141.3,33z"/>
+</g>
+<rect x="-1.4" y="296.3" class="st1" width="495.3" height="104.5"/>
+<text transform="matrix(1.0426 0 0 1 163.5435 344.1855)" class="st0 st2 st3">Wine</text>
+<text transform="matrix(1.0426 0 0 1 24.148 391.1855)" class="st0 st2 st3">Recommender</text>
+</svg>
