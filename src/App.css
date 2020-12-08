@@ -1,8 +1,20 @@
-.App {
-  text-align: center;
+* {
+  box-sizing: border-box;
 }
 
-.App-header {
+body, html, #root {
+  width: 100%;
+  min-height: 100%;
+  font-family: "Roboto", Helvetica, Arial, sans-serif;
+}
+
+.app {
+  text-align: center;
+  min-height: 100%;
+  width: 100%;
+}
+
+.appHeader {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -13,3 +25,12 @@
   color: white;
 }
 
+.appContainer {
+  overflow: hidden;
+  background-color: #282c34;
+  min-height: 100vh;
+  width: 100%;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  position: relative;
+}
