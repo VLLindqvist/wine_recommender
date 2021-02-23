@@ -4,7 +4,6 @@ from nltk.corpus import stopwords
 import sys
 import pandas as pd
 
-
 def filter(df, priceMin: int = 0, priceMax: int = sys.maxsize, grapes: list = [], countries: list = [], types: list = [], taste: list = []):
   # Filter for her typical price points
   priceFilterBool = ((df.price >= priceMin) & (df.price <= priceMax))

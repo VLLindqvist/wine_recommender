@@ -1,10 +1,8 @@
 from recommend import filter, tfidf_recommendation
 import nltk
-import time
 from flask import Flask, request
 import sys
 import pandas as pd
-import numpy as np
 import seaborn as sns
 sns.set()
 
@@ -44,7 +42,7 @@ for i in range(len(df_wine.categoryTaste)):
             _categoryTastes.append(str(df_wine.categoryTaste[i]))
 _categoryTastes.sort()
 
-_prices = [sys.maxsize, 0]
+_prices = n[sys.maxsize, 0]
 for i in range(len(df_wine.price)):
     if str(df_wine.price[i]) != 'nan':
         if int(df_wine.price[i]) < _prices[0]:

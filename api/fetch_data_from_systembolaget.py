@@ -19,7 +19,7 @@ csvRow = [
   "nameBold", "nameThin", "producer", "year", "alcoholPercentage", "volume", "price", "country", "region", "district", "type", "categoryTaste",
   "usage", "taste", "tasteBitter", "tasteSweetness", "tasteFruitAcid", "tasteBody", "tasteRoughness", "url", "imageURL", "grapes"
 ]
-with open('systembolaget.csv', 'w', newline='') as file:
+with open('systembolaget_raw.csv', 'w', newline='') as file:
   writer = csv.writer(file, dialect='excel')
   writer.writerow(csvRow)
 
