@@ -1,0 +1,8 @@
+flask==1.1.4
+pandas==1.5.3
+seaborn==0.11.0
+scikit-learn==1.5
+nltk==3.8.1
+python-dotenv==0.15.0
+numpy==1.26.4
+gunicorn=*

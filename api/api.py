@@ -55,7 +55,6 @@ for i in range(len(df_wine.price)):
 
 app = Flask(__name__)
 
-
 @app.route('/api/recommend', methods=['POST'])
 def get_recommendation():
     req_data = request.get_json()
@@ -105,3 +104,6 @@ def get_data():
         'categoryTastes': _categoryTastes,
         'prices': _prices,
     }
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0')

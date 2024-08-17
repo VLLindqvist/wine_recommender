@@ -45,7 +45,7 @@ def filter(df, priceMin: int = 0, priceMax: int = sys.maxsize, grapes: list = []
 def tfidf_recommendation(df, inputTasteDescr: str = ""):
   # Initialize a TFIDF Vectorizer model to work with the text data
   tf = TfidfVectorizer(analyzer='word',
-                       min_df=0,
+                       min_df=0.0,
                        stop_words=list(set(stopwords.words('swedish'))))
 
   # Use the initiated TFIDF model to transform the data in descriptions
