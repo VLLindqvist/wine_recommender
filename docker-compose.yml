@@ -1,0 +1,15 @@
+name: wine-recommender
+services:
+  api:
+    build: ./api
+    expose:
+      - "5000"
+    restart: unless-stopped
+
+  web:
+    build: ./app
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+    restart: unless-stopped

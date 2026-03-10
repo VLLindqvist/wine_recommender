@@ -1,7 +1,10 @@
 from recommend import filter, tfidf_recommendation
 import nltk
 import time
-from flask import Flask, request
+import hashlib
+import json
+from functools import lru_cache
+from flask import Flask, request, jsonify, make_response
 import sys
 import pandas as pd
 import numpy as np
@@ -55,25 +58,27 @@ for i in range(len(df_wine.price)):
 
 app = Flask(__name__)
 
-@app.route('/api/recommend', methods=['POST'])
-def get_recommendation():
-    req_data = request.get_json()
-    # print(req_data['countries'])
-    filtered_df = filter(
-        df_wine,
-        priceMin=req_data['priceLow'],
-        priceMax=req_data['priceHigh'],
-        grapes=req_data['grapes'],
-        countries=req_data['countries'],
-        types=req_data['types'],
-        taste=req_data['categoryTastes']
-    )
+# Pre-compute and cache the /api/data response since it never changes at runtime
+_data_response = json.dumps({
+    'grapes': _grapes,
+    'countries': _countries,
+    'types': _types,
+    'categoryTastes': _categoryTastes,
+    'prices': _prices,
+})
+_data_etag = hashlib.md5(_data_response.encode()).hexdigest()
 
-    recommended_wines_df = tfidf_recommendation(filtered_df, req_data['tasteDescription']) if (
-        req_data['tasteDescription'] != "") else filtered_df.head(6)
+# In-memory cache for /api/recommend results
+_recommend_cache = {}
+_CACHE_MAX_SIZE = 512
 
-    print(recommended_wines_df)
 
+def _build_cache_key(req_data):
+    normalized = json.dumps(req_data, sort_keys=True)
+    return hashlib.md5(normalized.encode()).hexdigest()
+
+
+def _serialize_results(recommended_wines_df):
     results = []
     for i, rec in recommended_wines_df.iterrows():
         results.append({
@@ -91,19 +96,51 @@ def get_recommendation():
             'tasteDescription': "" if str(rec['taste']) == 'nan' else rec['taste'],
             'tfidf_score': rec['tfidf_score'] if ('tfidf_score' in rec and str(rec['tfidf_score']) != 'nan') else 0,
         })
+    return results
 
-    return {'results': results}
+
+@app.route('/api/recommend', methods=['POST'])
+def get_recommendation():
+    req_data = request.get_json()
+    cache_key = _build_cache_key(req_data)
+
+    if cache_key in _recommend_cache:
+        return _recommend_cache[cache_key]
+
+    filtered_df = filter(
+        df_wine,
+        priceMin=req_data['priceLow'],
+        priceMax=req_data['priceHigh'],
+        grapes=req_data['grapes'],
+        countries=req_data['countries'],
+        types=req_data['types'],
+        taste=req_data['categoryTastes']
+    )
+
+    recommended_wines_df = tfidf_recommendation(filtered_df, req_data['tasteDescription']) if (
+        req_data['tasteDescription'] != "") else filtered_df.head(6)
+
+    result = {'results': _serialize_results(recommended_wines_df)}
+
+    # Evict oldest entries if cache is full
+    if len(_recommend_cache) >= _CACHE_MAX_SIZE:
+        _recommend_cache.pop(next(iter(_recommend_cache)))
+    _recommend_cache[cache_key] = result
+
+    return result
 
 
 @app.route('/api/data', methods=['GET'])
 def get_data():
-    return {
-        'grapes': _grapes,
-        'countries': _countries,
-        'types': _types,
-        'categoryTastes': _categoryTastes,
-        'prices': _prices,
-    }
+    # Return 304 if client already has current data
+    if request.headers.get('If-None-Match') == _data_etag:
+        return '', 304
+
+    response = make_response(_data_response)
+    response.headers['Content-Type'] = 'application/json'
+    response.headers['Cache-Control'] = 'public, max-age=86400'
+    response.headers['ETag'] = _data_etag
+    return response
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
